@@ -1,0 +1,1 @@
+<form action="{{ route('products.update', $product->ProductCode) }}" method="POST"> 
