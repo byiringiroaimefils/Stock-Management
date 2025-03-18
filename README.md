@@ -9,9 +9,7 @@ Stock Management System is a web-based application built with Laravel that helps
 - Product Management (Add, Edit, Delete products)
 - Category Management
 - Stock Level Tracking
-- Supplier Management
 - Stock Movement History
-- User Management with Role-based Access
 - Reports Generation
 - Dashboard with Key Metrics
 
@@ -20,7 +18,7 @@ Stock Management System is a web-based application built with Laravel that helps
 - **PHP**: ^8.1
 - **Laravel**: ^10.0
 - **Database**: MySQL
-- **Frontend**: Bootstrap, jQuery
+- **Frontend**: 
 
 ## Requirements
 
@@ -84,7 +82,6 @@ php artisan serve
    - Products
    - Categories
    - Stock levels
-   - Suppliers
    - Users
    - Reports
 
