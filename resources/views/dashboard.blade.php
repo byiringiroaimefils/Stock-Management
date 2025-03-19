@@ -120,38 +120,43 @@
     </div>
 
     {{-- Stock Report Table --}}
-    <div class="rounded-md border bg-white dark:bg-card">
+    <div class="rounded-md border bg-white">
         <div class="p-6">
-            <h2 class="text-xl font-semibold text-foreground mb-4">Stock Report</h2>
-            <div class="relative w-full overflow-auto">
-                <table class="w-full caption-bottom text-sm">
-                    <thead class="[&_tr]:border-b bg-gray-50 dark:bg-muted/50">
-                        <tr class="border-b transition-colors">
-                            <th class="h-12 px-4 text-left align-middle font-medium text-gray-600 dark:text-muted-foreground">#</th>
-                            <th class="h-12 px-4 text-left align-middle font-medium text-gray-600 dark:text-muted-foreground">Product Code</th>
-                            <th class="h-12 px-4 text-left align-middle font-medium text-gray-600 dark:text-muted-foreground">Product Name</th>
-                            <th class="h-12 px-4 text-left align-middle font-medium text-gray-600 dark:text-muted-foreground">Total Stock In</th>
-                            <th class="h-12 px-4 text-left align-middle font-medium text-gray-600 dark:text-muted-foreground">Total Stock Out</th>
-                            <th class="h-12 px-4 text-left align-middle font-medium text-gray-600 dark:text-muted-foreground">Net Stock</th>
+            <h2 class="text-xl font-semibold mb-4">Stock Report</h2>
+            
+            {{-- Table --}}
+            <table class="w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="p-4 text-left">#</th>
+                        <th class="p-4 text-left">Product Code</th>
+                        <th class="p-4 text-left">Product Name</th>
+                        <th class="p-4 text-left">Stock In</th>
+                        <th class="p-4 text-left">Stock Out</th>
+                        <th class="p-4 text-left">Available Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($report as $index => $item)
+                        <tr class="border-t hover:bg-gray-50">
+                            <td class="p-4">{{ $index + 1 }}</td>
+                            <td class="p-4">{{ $item->ProductCode }}</td>
+                            <td class="p-4">{{ $item->ProductName }}</td>
+                            <td class="p-4">{{ $item->TotalStockIn }}</td>
+                            <td class="p-4">{{ $item->TotalStockOut }}</td>
+                            <td class="p-4">{{ $item->NetStock }}</td>
                         </tr>
-                    </thead>
-                    <tbody class="[&_tr:last-child]:border-0">
-                        @forelse($report as $key => $item)
-                            <tr class="border-b transition-colors hover:bg-gray-50 dark:hover:bg-muted/50">
-                                <td class="p-4 align-middle text-gray-900 dark:text-white">{{ $key + 1 }}</td>
-                                <td class="p-4 align-middle text-gray-900 dark:text-white">{{ $item['ProductCode'] }}</td>
-                                <td class="p-4 align-middle text-gray-900 dark:text-white">{{ $item['ProductName'] }}</td>
-                                <td class="p-4 align-middle text-gray-900 dark:text-white">{{ $item['TotalStockIn'] }}</td>
-                                <td class="p-4 align-middle text-gray-900 dark:text-white">{{ $item['TotalStockOut'] }}</td>
-                                <td class="p-4 align-middle text-gray-900 dark:text-white">{{ $item['NetStock'] }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="p-4 text-center text-gray-900 dark:text-white">No report data available.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="p-4 text-center">No products found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+
+            {{-- Pagination Links --}}
+            <div class="mt-4">
+                {{ $report->links() }}
             </div>
         </div>
     </div>

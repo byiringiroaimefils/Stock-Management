@@ -7,22 +7,34 @@ use App\Http\Controllers\ProductOutController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController; // Add this line
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 
-// Redirect to login by default
+// Redirect to index page  by default
 Route::get('/', function () {
+    return view('index');
+});
+// this is route for Log in
+Route::get('/login', function () {
     return redirect()->route('login');
 });
 
 // Dashboard Route
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
+// Add these profile routes
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
 // Product Routes
 Route::resource('products', ProductController::class)->middleware('auth');
 
-// ProductIn Routes (Stock In)
+// ProductIn Routes (Stock In) with all functionality
 Route::resource('productins', ProductInController::class)->middleware('auth');
 
-// ProductOut Routes (Stock Out)
+// ProductOut Routes (Stock Out) with all functionality
 Route::resource('productouts', ProductOutController::class)->middleware('auth');
 
 // Reports Route

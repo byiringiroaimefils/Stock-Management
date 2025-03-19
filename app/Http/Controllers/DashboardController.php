@@ -13,46 +13,52 @@ class DashboardController extends Controller
     public function index()
     {
         try {
-            // Get basic statistics
+            // 1. Get basic counts for the dashboard cards
             $products = Product::all();
             $totalStockIn = ProductIn::sum('Quantity');
             $totalStockOut = ProductOut::sum('Quantity');
 
-            // Get stock report
-            $report = Product::select(
-                'products.ProductCode',
-                'products.ProductName',
-                DB::raw("COALESCE(SUM(product_ins.Quantity), 0) as TotalStockIn"),
-                DB::raw("COALESCE(SUM(product_outs.Quantity), 0) as TotalStockOut"),
-                DB::raw("COALESCE(SUM(product_ins.Quantity), 0) - COALESCE(SUM(product_outs.Quantity), 0) as NetStock")
-            )
-            ->leftJoin('product_ins', 'products.ProductCode', '=', 'product_ins.ProductCode')
-            ->leftJoin('product_outs', 'products.ProductCode', '=', 'product_outs.ProductCode')
-            ->groupBy(['products.ProductCode', 'products.ProductName'])
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'ProductCode' => $item->ProductCode,
-                    'ProductName' => $item->ProductName, 
-                    'TotalStockIn' => $item->TotalStockIn,
-                    'TotalStockOut' => $item->TotalStockOut,
-                    'NetStock' => $item->NetStock
-                ];
-            });
+            // 2. Generate the stock report with pagination
+            $report = DB::table('products')
+                ->select([
+                    'products.ProductCode',
+                    'products.ProductName',
+                    // Calculate total stock in
+                    DB::raw('(SELECT COALESCE(SUM(Quantity), 0) 
+                            FROM product_ins 
+                            WHERE product_ins.ProductCode = products.ProductCode) as TotalStockIn'),
+                    // Calculate total stock out
+                    DB::raw('(SELECT COALESCE(SUM(Quantity), 0) 
+                            FROM product_outs 
+                            WHERE product_outs.ProductCode = products.ProductCode) as TotalStockOut'),
+                ])
+                ->orderBy('ProductCode')
+                ->paginate(10); // Show 10 items per page
 
-            return view('dashboard', compact('products', 'totalStockIn', 'totalStockOut', 'report'));
-            
+            // 3. Calculate net stock for each product
+            foreach ($report as $item) {
+                $item->NetStock = $item->TotalStockIn - $item->TotalStockOut;
+            }
+
+            // 4. Display the dashboard with all data
+            return view('dashboard', [
+                'products' => $products,
+                'totalStockIn' => $totalStockIn,
+                'totalStockOut' => $totalStockOut,
+                'report' => $report
+            ]);
+
         } catch (\Exception $e) {
-            // Log the error
+            // If anything goes wrong, log the error
             Log::error('Dashboard Error: ' . $e->getMessage());
             
-            // Return with error message
+            // Show dashboard with empty data and error message
             return view('dashboard', [
                 'products' => collect([]),
                 'totalStockIn' => 0,
                 'totalStockOut' => 0,
                 'report' => collect([]),
-                'error' => 'Unable to load dashboard data. Please try again later.'
+                'error' => 'Sorry, we could not load the dashboard data. Please try again.'
             ]);
         }
     }
