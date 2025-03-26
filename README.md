@@ -11,7 +11,7 @@ Stock Management System is a web-based application built with Laravel that helps
 - Stock Level Tracking
 - Stock Movement History
 - Reports Generation
-- Dashboard with Key Metrics
+
 
 ## Tech Stack
 
