@@ -18,7 +18,7 @@ Stock Management System is a web-based application built with Laravel that helps
 - **PHP**: ^8.1
 - **Laravel**: ^10.0
 - **Database**: MySQL
-- **Frontend**: 
+
 
 ## Requirements
 
