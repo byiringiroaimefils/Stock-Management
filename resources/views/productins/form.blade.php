@@ -20,9 +20,9 @@
                     <label for="ProductCode" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Product Code
                     </label>
-                    <select 
-                        name="ProductCode" 
-                        id="ProductCode" 
+                    <select
+                        name="ProductCode"
+                        id="ProductCode"
                         class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         required
                     >
@@ -40,10 +40,10 @@
                     <label for="DateTime" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Date & Time
                     </label>
-                    <input 
-                        type="datetime-local" 
-                        name="DateTime" 
-                        id="DateTime" 
+                    <input
+                        type="datetime-local"
+                        name="DateTime"
+                        id="DateTime"
                         value="{{ isset($productin) ? date('Y-m-d\TH:i', strtotime($productin->DateTime)) : '' }}"
                         class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         required
@@ -55,10 +55,10 @@
                     <label for="Quantity" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Quantity
                     </label>
-                    <input 
-                        type="number" 
-                        name="Quantity" 
-                        id="Quantity" 
+                    <input
+                        type="number"
+                        name="Quantity"
+                        id="Quantity"
                         value="{{ isset($productin) ? $productin->Quantity : '' }}"
                         class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         required
@@ -70,23 +70,23 @@
                     <label for="UnitPrice" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Unit Price
                     </label>
-                    <input 
-                        type="number" 
-                        name="UnitPrice" 
-                        id="UnitPrice" 
+                    <input
+                        type="number"
+                        name="UnitPrice"
+                        id="UnitPrice"
                         value="{{ isset($productin) ? $productin->UnitPrice : '' }}"
-                        step="0.01" 
+                        step="0.01"
                         class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         required
                     >
                 </div>
 
                 <div class="flex justify-end gap-4">
-                    <a href="{{ route('productins.index') }}" 
+                    <a href="{{ route('productins.index') }}"
                        class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-input hover:bg-accent hover:text-accent-foreground h-10 py-2 px-4">
                         Cancel
                     </a>
-                    <button type="submit" 
+                    <button type="submit"
                             class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 h-10 py-2 px-4">
                         {{ isset($productin) ? 'Update' : 'Add' }} Stock {{ $type }}
                     </button>
